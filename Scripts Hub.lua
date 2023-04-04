@@ -4129,6 +4129,42 @@ local Input = Tab:CreateInput({
     -- The variable (Text) is a string for the value in the text box
     end,
  })
+local Section = Tab:CreateSection("Server Utilities")
+local Button = Tab:CreateButton({
+   Name = "Rejoin Server",
+   Callback = function()
+    Rayfield:Notify({
+        Title = "Scripts Hub",
+        Content = "Rejoining...",
+        Duration = 6.5,
+        Image = 4483362458,
+        Actions = { -- Notification Buttons
+           Ignore = {
+              Name = "Okay!",
+              Callback = function()
+              print("The user tapped Okay!")
+           end
+        },
+     },
+     })
+    wait(0.5)
+    local TS = game:GetService("TeleportService")
+    local P = game:GetService("Players").LocalPlayer
+    TS:Teleport(game.PlaceId, P)
+   -- The function that takes place when the button is pressed
+   end,
+})
+local Input = Tab:CreateInput({
+    Name = "Join A Server Whit JobID",
+    PlaceholderText = "JobID Here",
+    RemoveTextAfterFocusLost = true,
+    Callback = function(JobID)
+        local P = game:GetService("Players").LocalPlayer
+        TS:Teleport(JobID.PlaceId, P)
+    -- The function that takes place when the input is changed
+    -- The variable (Text) is a string for the value in the text box
+    end,
+ })
 local Tab = Window:CreateTab("Others", 4483362458)
 local Section = Tab:CreateSection("Best Experience")
 local Button = Tab:CreateButton({
