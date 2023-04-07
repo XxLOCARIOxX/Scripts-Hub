@@ -4761,28 +4761,7 @@ local Input = Tab:CreateInput({
 local Button = Tab:CreateButton({
    Name = "Re Execute Script",
    Callback = function()
-    Rayfield:Notify({
-   Title = "Scripts Hub",
-   Content = "Are You Sure?",
-   Duration = 6.5,
-   Image = 4483362458,
-   Actions = { -- Notification Buttons
-      Ignore = {
-         Name = "Yes",
-         Callback = function()
-            print("The user tapped Okay!")
-        end
-    },
-},
-    Actions = {
-        Ignore = {
-            Name = "No",
-            Callback = function()
-                print("The user tapped No")
-            end
-        }
-    }
-})
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/XxLOCARIOxX/Scripts-Hub/main/Scripts%20Hub.lua'))()
    -- The function that takes place when the button is pressed
    end,
 })
