@@ -437,8 +437,193 @@ game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.
     -- The function that takes place when the button is pressed
     end,
  })
+local Section = Tab:CreateSection("Utility Scripts Server")
+local Button = Tab:CreateButton({
+    Name = "Rejoin Button On Kick",
+    Callback = function()
+        --Auto execute highly recommended (use it)
+gui = game.CoreGui.RobloxPromptGui.promptOverlay:WaitForChild("ErrorPrompt")
+
+gui.Size = UDim2.new(0, 400, 0, 230)
+
+leave = gui.MessageArea.ErrorFrame.ButtonArea.LeaveButton
+
+gui.MessageArea.MessageAreaPadding.PaddingTop = UDim.new(0,-20)
+gui.MessageArea.ErrorFrame.ErrorFrameLayout.Padding = UDim.new(0, 5)
+
+gui.MessageArea.ErrorFrame.ButtonArea.ButtonLayout.CellPadding = UDim2.new(0, 0, 0, 5)
+
+rejoin = leave:Clone()
+rejoin.Parent = leave.Parent
+rejoin.ButtonText.Text = "Rejoin"
+
+Players = game:GetService("Players")
+TeleportService = game:GetService("TeleportService")
+
+rejoin.MouseButton1Up:Connect(function()
+	if #Players:GetPlayers() <= 1 then
+		TeleportService:Teleport(game.PlaceId, Players.LocalPlayer)
+	else
+		TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, Players.LocalPlayer)
+	end
+end)
+Rayfield:Notify({
+    Title = "Scripts Hub",
+    Content = "Executed!",
+    Duration = 6.5,
+    Image = 4483362458,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("The user tapped Okay!")
+       end
+    },
+ },
+ })
+    -- The function that takes place when the button is pressed
+    end,
+ })
+local Button = Tab:CreateButton({
+    Name = "Free Cam Button On Kick",
+    Callback = function()
+        error = game.CoreGui.RobloxPromptGui.promptOverlay:WaitForChild("ErrorPrompt")
+
+error.Size = UDim2.new(0, 400, 0, 230)
+
+leave = error.MessageArea.ErrorFrame.ButtonArea.LeaveButton
+
+error.MessageArea.MessageAreaPadding.PaddingTop = UDim.new(0,-20)
+error.MessageArea.ErrorFrame.ErrorFrameLayout.Padding = UDim.new(0, 5)
+
+error.MessageArea.ErrorFrame.ButtonArea.ButtonLayout.CellPadding = UDim2.new(0, 0, 0, 5)
+
+rejoin = leave:Clone()
+rejoin.Parent = leave.Parent
+rejoin.ButtonText.Text = "Freecam"
+
+Players = game:GetService("Players")
+TeleportService = game:GetService("TeleportService")
+
+rejoin.MouseButton1Up:Connect(function()
+
+error.Visible = false
+
+gui = game.CoreGui.RobloxPromptGui.promptOverlay
+
+viewport = Instance.new("ViewportFrame",gui)
+Camera = Instance.new("Camera",viewport)
+Camera.CFrame = workspace.CurrentCamera.CFrame
+FakeWorkspace = Instance.new("Model",viewport)
+viewport.Size = UDim2.new(1,0,1,0)
+viewport.BackgroundTransparency = 1
+fakesky = Instance.new("ImageLabel",gui)
+fakesky.ZIndex = 0
+fakesky.Size = UDim2.new(1,0,1,0)
+fakesky.BorderSizePixel = 0
+
+sky = game.Lighting:FindFirstChildWhichIsA("Sky")
+if sky then do
+		fakesky.Image = sky.SkyboxLf
+	end else
+	fakesky.Image = "rbxasset://textures/sky/sky512_lf.tex"
+end
+
+viewport.CurrentCamera = Camera
+
+for i,v in pairs(workspace:GetChildren()) do
+	if v.ClassName ~= "Camera" and v.ClassName ~= "Terrain" then
+		v.Archivable = true
+		local clone = v:Clone()
+		clone.Parent = FakeWorkspace
+	end
+end
+
+    
+--Camera Control:
+stop_loops = false
+game.UserInputService.InputBegan:Connect(function(key)
+	stop_loops = true
+	wait() wait()
+	stop_loops = false
+	
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.W) do
+			Camera.CFrame += Camera.CFrame.LookVector * 1
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.S) do
+			Camera.CFrame += Camera.CFrame.LookVector * -1
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.D) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(0,math.rad(-1.5),0)
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.A) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(0,math.rad(1.5),0)
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.E) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(math.rad(1.5),0,0)
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.Q) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(math.rad(-1.5),0,0)
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.Z) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(0,0,math.rad(1.5))
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+	coroutine.wrap(function() 
+		while game.UserInputService:IsKeyDown(Enum.KeyCode.X) do
+			Camera.CFrame = Camera.CFrame * CFrame.Angles(0,0,math.rad(-1.5))
+			if stop_loops == true then break end
+			wait()
+		end
+	end)()
+end)
+end)
+Rayfield:Notify({
+    Title = "Scripts Hub",
+    Content = "Executed!",
+    Duration = 6.5,
+    Image = 4483362458,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("The user tapped Okay!")
+       end
+    },
+ },
+ })
+    -- The function that takes place when the button is pressed
+    end,
+})
 local Tab = Window:CreateTab("R6 Scripts", 4483362458) -- Title, Image
-local Section = Tab:CreateSection("R6 Scripts No hats")
+local Section = Tab:CreateSection("R6 Scripts No Hats")
 local Button = Tab:CreateButton({
    Name = "Clovr (PC)",
    Callback = function()
@@ -2196,8 +2381,231 @@ local Button = Tab:CreateButton({
     -- The function that takes place when the button is pressed
     end,
  })
- local Section = Tab:CreateSection("R6 Hats Needed")
- local Button = Tab:CreateButton({
+local Button = Tab:CreateButton({
+    Name = "Fe Laser Arm (Mobile/PC)",
+    Callback = function()
+        local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+if not getgenv().Network then
+	getgenv().Network = {
+		BaseParts = {};
+		FakeConnections = {};
+		Connections = {};
+		Output = {
+			Enabled = true;
+			Prefix = "[NETWORK] ";
+			Send = function(Type,Output,BypassOutput)
+				if typeof(Type) == "function" and (Type == print or Type == warn or Type == error) and typeof(Output) == "string" and (typeof(BypassOutput) == "nil" or typeof(BypassOutput) == "boolean") then
+					if Network["Output"].Enabled == true or BypassOutput == true then
+						Type(Network["Output"].Prefix..Output);
+					end;
+				elseif Network["Output"].Enabled == true then
+					error(Network["Output"].Prefix.."Output Send Error : Invalid syntax.");
+				end;
+			end;
+		};
+		CharacterRelative = false;
+	}
+
+	Network["Output"].Send(print,": Loading.")
+	Network["Velocity"] = Vector3.new(14.46262424,14.46262424,14.46262424); --exactly 25.1 magnitude
+	Network["RetainPart"] = function(Part,ReturnFakePart) --function for retaining ownership of unanchored parts
+		assert(typeof(Part) == "Instance" and Part:IsA("BasePart") and Part:IsDescendantOf(workspace),Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg1 (Part) must be a BasePart which is a descendant of workspace.")
+		assert(typeof(ReturnFakePart) == "boolean" or typeof(ReturnFakePart) == "nil",Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg2 (ReturnFakePart) must be a boolean or nil.")
+		if not table.find(Network["BaseParts"],Part) then
+			if Network.CharacterRelative == true then
+				local Character = LocalPlayer.Character
+				if Character and Character.PrimaryPart then
+					local Distance = (Character.PrimaryPart.Position-Part.Position).Magnitude
+					if Distance > 1000 then
+						Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is more than "..gethiddenproperty(LocalPlayer,"MaximumSimulationRadius").." studs away.")
+						return false
+					end
+				else
+					Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as the LocalPlayer Character's PrimaryPart does not exist.")
+					return false
+				end
+			end
+			table.insert(Network["BaseParts"],Part)
+			Part.CustomPhysicalProperties = PhysicalProperties.new(0,0,0,0,0)
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership applied to BasePart "..Part:GetFullName()..".")
+			if ReturnFakePart == true then
+				return FakePart
+			end
+		else
+			Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it already active.")
+			return false
+		end
+	end
+
+	Network["RemovePart"] = function(Part) --function for removing ownership of unanchored part
+		assert(typeof(Part) == "Instance" and Part:IsA("BasePart"),Network["Output"].Prefix.."RemovePart Error : Invalid syntax: Arg1 (Part) must be a BasePart.")
+		local Index = table.find(Network["BaseParts"],Part)
+		if Index then
+			table.remove(Network["BaseParts"],Index)
+			Network["Output"].Send(print,"RemovePart Output: PartOwnership removed from BasePart "..Part:GetFullName()..".")
+		else
+			Network["Output"].Send(warn,"RemovePart Warning : BasePart "..Part:GetFullName().." not found in BaseParts table.")
+		end
+	end
+
+	Network["SuperStepper"] = Instance.new("BindableEvent") --make super fast event to connect to
+	for _,Event in pairs({RunService.Stepped,RunService.Heartbeat}) do
+		Event:Connect(function()
+			return Network["SuperStepper"]:Fire(Network["SuperStepper"],tick())
+		end)
+	end
+
+	Network["PartOwnership"] = {};
+	Network["PartOwnership"]["PreMethodSettings"] = {};
+	Network["PartOwnership"]["Enabled"] = false;
+	Network["PartOwnership"]["Enable"] = coroutine.create(function() --creating a thread for network stuff
+		if Network["PartOwnership"]["Enabled"] == false then
+			Network["PartOwnership"]["Enabled"] = true --do cool network stuff before doing more cool network stuff
+			Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus = LocalPlayer.ReplicationFocus
+			LocalPlayer.ReplicationFocus = workspace
+			Network["PartOwnership"]["PreMethodSettings"].SimulationRadius = gethiddenproperty(LocalPlayer,"SimulationRadius")
+			Network["PartOwnership"]["Connection"] = Network["SuperStepper"].Event:Connect(function() --super fast asynchronous loop
+				sethiddenproperty(LocalPlayer,"SimulationRadius",1/0)
+				for _,Part in pairs(Network["BaseParts"]) do --loop through parts and do network stuff
+					coroutine.wrap(function()
+						if Part:IsDescendantOf(workspace) then
+							if Network.CharacterRelative == true then
+								local Character = LocalPlayer.Character;
+								if Character and Character.PrimaryPart then
+									local Distance = (Character.PrimaryPart.Position - Part.Position).Magnitude
+									if Distance > 1000 then
+										Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is more than "..gethiddenproperty(LocalPlayer,"MaximumSimulationRadius").." studs away.")
+										Lost = true;
+										Network["RemovePart"](Part)
+									end
+								else
+									Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as the LocalPlayer Character's PrimaryPart does not exist.")
+								end
+							end
+							Part.Velocity = Network["Velocity"]+Vector3.new(0,math.cos(tick()*10)/100,0) --keep network by sending physics packets of 30 magnitude + an everchanging addition in the y level so roblox doesnt get triggered and fuck your ownership
+						else
+							Network["RemovePart"](Part)
+						end
+					end)()
+				end
+			end)
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership enabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already enabled.")
+		end
+	end)
+	Network["PartOwnership"]["Disable"] = coroutine.create(function()
+		if Network["PartOwnership"]["Connection"] then
+			Network["PartOwnership"]["Connection"]:Disconnect()
+			LocalPlayer.ReplicationFocus = Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus
+			sethiddenproperty(LocalPlayer,"SimulationRadius",Network["PartOwnership"]["PreMethodSettings"].SimulationRadius)
+			Network["PartOwnership"]["PreMethodSettings"] = {}
+			for _,Part in pairs(Network["BaseParts"]) do
+				Network["RemovePart"](Part)
+			end
+			Network["PartOwnership"]["Enabled"] = false
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership disabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already disabled.")
+		end
+	end)
+	Network["Output"].Send(print,": Loaded.")
+end
+
+coroutine.resume(Network["PartOwnership"]["Enable"])
+
+player = game:GetService("Players").LocalPlayer
+
+RA = player.Character["Right Arm"]
+Mouse = player:GetMouse()
+
+Torso = player.Character.Torso
+
+RA.Parent = nil
+RA.Transparency = 1
+RA.Parent = player.Character
+
+NRA = player.Character["Pal Hair"].Handle
+NRA.Mesh:Destroy()
+NRA.AccessoryWeld:Destroy()
+Network.RetainPart(NRA)
+
+Pointing = false
+
+coroutine.wrap(function()
+	while task.wait() do
+		if Pointing == true then do
+				local LA = CFrame.lookAt(Torso.Position + Torso.CFrame.RightVector * 1.5 + Torso.CFrame.UpVector * 0.5,Mouse.Hit.Position)
+				NRA.CFrame = LA + LA.LookVector * 0.5
+			end else
+			NRA.CFrame = RA.CFrame * CFrame.Angles(math.rad(90),0,0)
+		end
+	end
+end)()
+
+
+Mouse.Button1Down:Connect(function()
+	Pointing = true
+end)
+
+Mouse.Button1Up:Connect(function()
+	Pointing = false
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "FE Laser Arm Loaded",
+	Text = "Made by rouxhaver",
+	Icon = "rbxassetid://12561999923"
+})
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "Network Credit:",
+	Text = "thanks to 4eyes for network stuff",
+	Icon = "rbxassetid://12562053596"
+})
+
+function RNG(Min,Max) 
+	return math.random(Min*1000000,Max*1000000)/1000000
+end
+
+for i,hat in pairs(player.Character:GetChildren()) do
+	if hat:IsA("Accessory") and hat ~= NRA.Parent then
+		local Handle = hat.Handle
+		Handle.AccessoryWeld:Destroy()
+        Network.RetainPart(Handle)
+		Handle:FindFirstChildWhichIsA("SpecialMesh"):Destroy()
+		coroutine.wrap(function()
+			while task.wait() do
+				if Pointing == true then do
+						Handle.CFrame = (NRA.CFrame + NRA.CFrame.LookVector):Lerp(Mouse.Hit, RNG(0.1,1)) * CFrame.Angles(math.rad(RNG(0,360)),math.rad(RNG(0,360)),math.rad(RNG(0,360)))
+					end else
+					Handle.CFrame = player.Character.Head.CFrame - Vector3.new(0,20,0)
+				end
+			end
+		end)()
+	end
+end
+Rayfield:Notify({
+    Title = "Scripts Hub",
+    Content = "Executed!",
+    Duration = 6.5,
+    Image = 4483362458,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("The user tapped Okay!")
+       end
+    },
+ },
+ })
+    -- The function that takes place when the button is pressed
+    end,
+ })
+local Section = Tab:CreateSection("R6 Hats Needed")
+local Button = Tab:CreateButton({
     Name = "Fe Slasher Sword",
     Callback = function()
         Rayfield:Notify({
@@ -2216,10 +2624,156 @@ local Button = Tab:CreateButton({
          })
     -- The function that takes place when the button is pressed
     end,
- })
- local Tab = Window:CreateTab("R15 Scripts", 4483362458) -- Title, Image
- local Section = Tab:CreateSection("R15 Scripts No Hats")
- local Button = Tab:CreateButton({
+})
+local Button = Tab:CreateButton({
+    Name = "Fe Laser Arm",
+    Callback = function()
+        Rayfield:Notify({
+            Title = "Scripts Hub",
+            Content = "https://www.roblox.com/catalog/63690008/Pal-Hair",
+            Duration = 6.5,
+            Image = 4483362458,
+            Actions = { -- Notification Buttons
+               Ignore = {
+                  Name = "Next Hat",
+                  Callback = function()
+                    Rayfield:Notify({
+                        Title = "Scritps Hub",
+                        Content = "https://www.roblox.com/catalog/62724852/Chestnut-Bun",
+                        Duration = 6.5,
+                        Image = 4483362458,
+                        Actions = { -- Notification Buttons
+                           Ignore = {
+                              Name = "Next Hat",
+                              Callback = function()
+                                Rayfield:Notify({
+                                    Title = "Scripts Hub",
+                                    Content = "https://www.roblox.com/catalog/451220849/Lavender-Updo",
+                                    Duration = 6.5,
+                                    Image = 4483362458,
+                                    Actions = { -- Notification Buttons
+                                       Ignore = {
+                                          Name = "Next Hat",
+                                          Callback = function()
+                                            Rayfield:Notify({
+                                                Title = "Scripts Hub",
+                                                Content = "https://www.roblox.com/catalog/48474294/ROBLOX-Girl-Hair",
+                                                Duration = 6.5,
+                                                Image = 4483362458,
+                                                Actions = { -- Notification Buttons
+                                                   Ignore = {
+                                                      Name = "Next Hat",
+                                                      Callback = function()
+                                                        Rayfield:Notify({
+                                                            Title = "Scripts Hub",
+                                                            Content = "https://www.roblox.com/catalog/62234425/Brown-Hair",
+                                                            Duration = 6.5,
+                                                            Image = 4483362458,
+                                                            Actions = { -- Notification Buttons
+                                                               Ignore = {
+                                                                  Name = "Next Hat",
+                                                                  Callback = function()
+                                                                    Rayfield:Notify({
+                                                                        Title = "Scripts Hub",
+                                                                        Content = "https://www.roblox.com/catalog/376548738/Brown-Charmer-Hair",
+                                                                        Duration = 6.5,
+                                                                        Image = 4483362458,
+                                                                        Actions = { -- Notification Buttons
+                                                                           Ignore = {
+                                                                              Name = "Next Hat",
+                                                                              Callback = function()
+                                                                                Rayfield:Notify({
+                                                                                    Title = "Scripts Hub",
+                                                                                    Content = "https://www.roblox.com/catalog/376524487/Blonde-Spiked-Hair",
+                                                                                    Duration = 6.5,
+                                                                                    Image = 4483362458,
+                                                                                    Actions = { -- Notification Buttons
+                                                                                       Ignore = {
+                                                                                          Name = "Next Hat",
+                                                                                          Callback = function()
+                                                                                            Rayfield:Notify({
+                                                                                                Title = "Scripts Hub",
+                                                                                                Content = "https://www.roblox.com/catalog/48474313/Red-Roblox-Cap",
+                                                                                                Duration = 6.5,
+                                                                                                Image = 4483362458,
+                                                                                                Actions = { -- Notification Buttons
+                                                                                                   Ignore = {
+                                                                                                      Name = "Next Hat",
+                                                                                                      Callback = function()
+                                                                                                        Rayfield:Notify({
+                                                                                                            Title = "Scripts Hub",
+                                                                                                            Content = "https://www.roblox.com/catalog/4094878701/International-Fedora-Mexico",
+                                                                                                            Duration = 6.5,
+                                                                                                            Image = 4483362458,
+                                                                                                            Actions = { -- Notification Buttons
+                                                                                                               Ignore = {
+                                                                                                                  Name = "Next Hat",
+                                                                                                                  Callback = function()
+                                                                                                                    Rayfield:Notify({
+                                                                                                                        Title = "Scripts Hub",
+                                                                                                                        Content = "https://www.roblox.com/catalog/3409612660/International-Fedora-USA",
+                                                                                                                        Duration = 6.5,
+                                                                                                                        Image = 4483362458,
+                                                                                                                        Actions = { -- Notification Buttons
+                                                                                                                           Ignore = {
+                                                                                                                              Name = "Okay!",
+                                                                                                                              Callback = function()
+                                                                                                                              print("The user tapped Okay!")
+                                                                                                                           end
+                                                                                                                        },
+                                                                                                                     },
+                                                                                                                     })
+                                                                                                                  print("The user tapped Okay!")
+                                                                                                               end
+                                                                                                            },
+                                                                                                         },
+                                                                                                         })
+                                                                                                      print("The user tapped Okay!")
+                                                                                                   end
+                                                                                                },
+                                                                                             },
+                                                                                             })
+                                                                                          print("The user tapped Okay!")
+                                                                                       end
+                                                                                    },
+                                                                                 },
+                                                                                 })
+                                                                              print("The user tapped Okay!")
+                                                                           end
+                                                                        },
+                                                                     },
+                                                                     })
+                                                                  print("The user tapped Okay!")
+                                                               end
+                                                            },
+                                                         },
+                                                         })
+                                                      print("The user tapped Okay!")
+                                                   end
+                                                },
+                                             },
+                                             })
+                                          print("The user tapped Okay!")
+                                       end
+                                    },
+                                 },
+                                 })
+                              print("The user tapped Okay!")
+                           end
+                        },
+                     },
+                     })
+                  print("The user tapped Okay!")
+               end
+            },
+         },
+         })
+    -- The function that takes place when the button is pressed
+    end,
+})
+local Tab = Window:CreateTab("R15 Scripts", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("R15 Scripts No Hats")
+local Button = Tab:CreateButton({
     Name = "Fe Tall Man (Mobile/PC)",
     Callback = function()
         local LocalPlayer = game:GetService("Players").LocalPlayer
@@ -2335,7 +2889,7 @@ Rayfield:Notify({
  })
 local Tab = Window:CreateTab("BrookHaven", 4483362458) -- Title, Image
 local Button = Tab:CreateButton({
-   Name = "Ice Hub (Mobile/PC)",
+   Name = "Ice Hub Brookhaven (Mobile/PC)",
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/IceMael7/NewIceHub/main/Brookhaven"))()
        Rayfield:Notify({
@@ -2355,6 +2909,28 @@ local Button = Tab:CreateButton({
    -- The function that takes place when the button is pressed
    end,
 })
+local Tab = Window:CreateTab("Adopt Me", 4483362458) -- Title, Image
+local Button = Tab:CreateButton({
+    Name = "Ice Hub Adopt Me (Mobile/PC)",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/IceMael7/NewIceHub/main/Brookhaven"))()
+        Rayfield:Notify({
+            Title = "Scripts Hub",
+            Content = "Executed!",
+            Duration = 6.5,
+            Image = 4483362458,
+            Actions = { -- Notification Buttons
+               Ignore = {
+                  Name = "Okay!",
+                  Callback = function()
+                  print("The user tapped Okay!")
+               end
+            },
+         },
+         })
+    -- The function that takes place when the button is pressed
+    end,
+ })
 local Tab = Window:CreateTab("Murder Mistery 2", 4483362458)
 local Section = Tab:CreateSection("Best")
 local Button = Tab:CreateButton({
@@ -2422,6 +2998,29 @@ local Button = Tab:CreateButton({
     end,
  })
 local Tab = Window:CreateTab("Blox Fruits", 4483362458)
+local Section = Tab:CreateSection("Best")
+local Button = Tab:CreateButton({
+    Name = "Mukuro Hub (Mobile/PC)",
+    Callback = function()
+        loadstring(game:HttpGet"https://raw.githubusercontent.com/xDepressionx/Free-Script/main/AllScript.lua")()
+        Rayfield:Notify({
+    Title = "Scripts Hub",
+    Content = "Executed!",
+    Duration = 6.5,
+    Image = 4483362458,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("The user tapped Okay!")
+       end
+    },
+ },
+ })
+    -- The function that takes place when the button is pressed
+    end,
+ })
+local Section = Tab:CreateSection("Others")
 local Button = Tab:CreateButton({
    Name = "Hoho Hub (Mobile/PC)",
    Callback = function()
@@ -2468,27 +3067,6 @@ local Button = Tab:CreateButton({
    Callback = function()
        loadstring(game:HttpGet("https://raw.githubusercontent.com/Mei2232/ZaqueHub/main/Zaque%20Hub"))()
        Rayfield:Notify({
-   Title = "Scripts Hub",
-   Content = "Executed!",
-   Duration = 6.5,
-   Image = 4483362458,
-   Actions = { -- Notification Buttons
-      Ignore = {
-         Name = "Okay!",
-         Callback = function()
-         print("The user tapped Okay!")
-      end
-   },
-},
-})
-   -- The function that takes place when the button is pressed
-   end,
-})
-local Button = Tab:CreateButton({
-   Name = "Mukuro Hub (Mobile/PC)",
-   Callback = function()
-   	loadstring(game:HttpGet"https://raw.githubusercontent.com/xDepressionx/Free-Script/main/AllScript.lua")()
-   	Rayfield:Notify({
    Title = "Scripts Hub",
    Content = "Executed!",
    Duration = 6.5,
@@ -4155,16 +4733,59 @@ local Button = Tab:CreateButton({
    end,
 })
 local Input = Tab:CreateInput({
-    Name = "Join A Server Whit JobID",
+    Name = "Join Whit JobID",
     PlaceholderText = "JobID Here",
-    RemoveTextAfterFocusLost = true,
-    Callback = function(JobID)
-        local P = game:GetService("Players").LocalPlayer
-        TS:Teleport(JobID.PlaceId, P)
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        Rayfield:Notify({
+            Title = "Scripts Hub",
+            Content = "Teleporting...",
+            Duration = 6.5,
+            Image = 4483362458,
+            Actions = { -- Notification Buttons
+               Ignore = {
+                  Name = "Okay!",
+                  Callback = function()
+                  print("The user tapped Okay!")
+               end
+            },
+         },
+         })
+        wait(0.5)
+        local PlaceID = game.PlaceId
+        game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID,Text)
     -- The function that takes place when the input is changed
     -- The variable (Text) is a string for the value in the text box
     end,
  })
+local Button = Tab:CreateButton({
+   Name = "Re Execute Script",
+   Callback = function()
+    Rayfield:Notify({
+   Title = "Scripts Hub",
+   Content = "Are You Sure?",
+   Duration = 6.5,
+   Image = 4483362458,
+   Actions = { -- Notification Buttons
+      Ignore = {
+         Name = "Yes",
+         Callback = function()
+            print("The user tapped Okay!")
+        end
+    },
+},
+    Actions = {
+        Ignore = {
+            Name = "No",
+            Callback = function()
+                print("The user tapped No")
+            end
+        }
+    }
+})
+   -- The function that takes place when the button is pressed
+   end,
+})
 local Tab = Window:CreateTab("Others", 4483362458)
 local Section = Tab:CreateSection("Best Experience")
 local Button = Tab:CreateButton({
@@ -4462,6 +5083,102 @@ Rayfield:Notify({
    -- The function that takes place when the button is pressed
    end,
 })
+local Button = Tab:CreateButton({
+    Name = "Chat Spy v2 (Mobile/PC)",
+    Callback = function()
+        --[[
+	Simple Chat Spy
+	Type "spy" to enable or disable the chat spy.
+	Only tested if this works executed with Synapse (should work with other exploits though)
+--]]
+
+print("-- Chat Spy Executed --")
+print("Type \"spy\" to enable or disable the chat spy.")
+print("Only tested if this works executed with Synapse (should work with other exploits though)")
+print("https://github.com/dehoisted/Chat-Spy")
+
+-- Config
+Config = {
+	enabled = true,
+	spyOnMyself = true,
+	public = false,
+	publicItalics = true
+}
+
+-- Customizing Log Output
+PrivateProperties = {
+	Color = Color3.fromRGB(0,255,0); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+
+	local StarterGui = game:GetService("StarterGui")
+	local Players = game:GetService("Players")
+	local player = Players.LocalPlayer
+	local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+	local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+	local instance = (_G.chatSpyInstance or 0) + 1
+	_G.chatSpyInstance = instance
+
+	local function onChatted(p,msg)
+		if _G.chatSpyInstance == instance then
+			if p==player and msg:lower():sub(1,4)=="/spy" then
+				Config.enabled = not Config.enabled
+				wait(0.3)
+				PrivateProperties.Text = "{SPY "..(Config.enabled and "EN" or "DIS").."ABLED}"
+				StarterGui:SetCore("ChatMakeSystemMessage", PrivateProperties)
+			elseif Config.enabled and (Config.spyOnMyself==true or p~=player) then
+				msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+				local hidden = true
+				local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+					if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and Config.public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+						hidden = false
+					end
+				end)
+				wait(1)
+				conn:Disconnect()
+				if hidden and Config.enabled then
+					if Config.public then
+						saymsg:FireServer((Config.publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+					else
+						PrivateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+						StarterGui:SetCore("ChatMakeSystemMessage", PrivateProperties)
+					end
+				end
+			end
+		end
+	end
+	
+	for _,p in ipairs(Players:GetPlayers()) do
+		p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+	end
+
+	Players.PlayerAdded:Connect(function(p)
+		p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+	end)
+
+	PrivateProperties.Text = "{SPY "..(Config.enabled and "EN" or "DIS").."ABLED}"
+	StarterGui:SetCore("ChatMakeSystemMessage", PrivateProperties)
+	local chatFrame = player.PlayerGui.Chat.Frame
+	chatFrame.ChatChannelParentFrame.Visible = true
+	chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+    Rayfield:Notify({
+        Title = "Scripts Hub",
+        Content = "Executed!",
+        Duration = 6.5,
+        Image = 4483362458,
+        Actions = { -- Notification Buttons
+           Ignore = {
+              Name = "Okay!",
+              Callback = function()
+              print("The user tapped Okay!")
+           end
+        },
+     },
+     })
+    -- The function that takes place when the button is pressed
+    end,
+ })
 local Button = Tab:CreateButton({
    Name = "Voice Chat SPY (Mobile/PC)",
    Callback = function()
